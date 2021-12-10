@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="lesson1.js"></script>
+    <script type="text/javascript" src="lesson2.js"></script>
+    <script type="text/javascript" src="lesson3.js"></script>
+    <script type="text/javascript" src="lesson4.js"></script>
+    <script type="text/javascript" src="lesson5.js"></script>
+    <script type="text/javascript" src="lesson6.js"></script>
+    <script type="text/javascript" src="lesson7.js"></script>
+    <script type="text/javascript" src="lesson8.js"></script>
+    <script type="text/javascript" src="lesson10.js"></script>
+    <script type="text/javascript" src="Timer.js"></script>
+
+
+
+</head>
+<body>
+
+
+
+    <h2>Lesson 1</h2>
+    <p>
+        let apples;<br>
+        apples = 4;<br>
+        apples = "four";<br>
+
+
+        let eggs = 3;<br>
+        let text = "Number of eggs: ";<br>
+        let combination = text + eggs; //Result is - Number of eggs: 3<br>
+
+        let num1 = 2;<br>
+        let num2 = "5";<br>
+        let sum = num1 + num2;<br>
+        console.log(sum)
+    </p>
+    <script>
+
+    </script>
+
+
+
+    <button onclick="lesson2_8()">Try it</button>
+    <div id="1"></div>
+    // this is for DOM
+    <a href="#">My link</a>
+    <h1 id="heading">My header</h1>
+    <button id="btn1" onclick="lesson3_1()">Click me</button>
+    //finish of DOM
+
+
+    //for mini game
+    <div class="wrapper">
+        <h1>Guess the colour</h1>
+        <div class="quiz-question">
+            <span class="quiz-question__text" id="quiz-question__text"></span>
+        </div>
+        <div class="answers__wrapper" id="answers"></div>
+        <div class="modal hide">
+            <div class="modal__content">
+                <h2 class="modal__heading">You win!</h2>
+                <div class="modal__text">
+                    Do you want to play again?<br />
+                    <span class="modal__text--smaller">(type yes or no)</span>
+                </div>
+                <form onsubmit="handleSubmitPlayAgain(event)" class="form">
+                    <input
+                            type="text"
+                            name="answerInput"
+                            class="form__input"
+                            required
+                    />
+                    <button type="submit" onclick="mini_game()">Submit answer</button>
+                    <script>
+                        //SELECTORS
+                        const answers = document.getElementById("answers");
+                        const quizQuestionText = document.querySelector(".quiz-question__text");
+                        // const answersOption = document.getElementsByClassName("answers__option");
+                        const modal = document.querySelector(".modal");
+
+                        //GLOBAL VARIABLES
+                        let quizColor;
+                        let answerColors = [];
+
+                        console.log(quizQuestionText);
+
+                        const getRandomInt = (min, max) => {
+                            return Math.floor(Math.random() * (max - min + 1)) + min;
+                        };
+
+                        // const getRandomRgbNumber = () => Math.floor(Math.random() * 256); - REPLACED WITH MORE GENERIC FUNCTION getRandomInt()
+
+                        const generateColor = () => {
+                            const red = getRandomInt(0, 255);
+                            const green = getRandomInt(0, 255);
+                            const blue = getRandomInt(0, 255);
+                            return `rgb(${red}, ${green}, ${blue});`;
+                        };
+
+                        const clearAnswerColorsArr = () => {
+                            answerColors = [];
+                        };
+
+                        const createAnswerColorsArr = () => {
+                            for (let i = 0; i < 4; i++) {
+                                answerColors.push(generateColor());
+                            }
+                        };
+
+                        const renderAnswerOptions = () => {
+                            for (let i = 0; i < answerColors.length; i++) {
+                                answers.insertAdjacentHTML(
+                                    "beforeend",
+                                    `<button class="answers__option" style="background-color: ${answerColors[i]}" onclick="handleAnswerOptionClick(this)" id="${i}"></button>`
+                                );
+                            }
+                        };
+
+                        const renderQuizColor = () => {
+                            quizColor = answerColors[getRandomInt(0, 3)];
+                            quizQuestionText.innerHTML = quizColor;
+                        };
+
+                        //INITIAL RENDER
+                        createAnswerColorsArr();
+                        renderAnswerOptions();
+                        renderQuizColor();
+
+                        //MODAL LOGIC
+                        // const handleModalChange = (show) =>
+                        // show ? modal.classList.remove("hide") : modal.classList.add("hide");
+
+                        const handleModalChange = (show) => {
+                            // show ? modal.classList.remove("hide") : modal.classList.add("hide"); - REPLACED WITH THE CODE BELOW BECAUSE OF BOUNCE ANIMATION
+                            if (show) {
+                                modal.classList.remove("hide");
+                                modal.style.animation = "bounce 1s";
+                            } else {
+                                modal.classList.add("hide");
+                                modal.style.animation = null;
+                            }
+                        };
+
+                        modal.addEventListener("click", (e) => {
+                            if (e.target === modal) handleModalChange(false);
+                        });
+
+                        const handleAnswerOptionClick = (btn) => {
+                            if (answerColors[btn.id] === quizColor) handleModalChange(true);
+                            else btn.style.opacity = 0;
+                        };
+
+                        const handleSubmitPlayAgain = (event) => {
+                            event.preventDefault();
+                            const input = event.target.answerInput;
+                            if (input.value === "yes") {
+                                answers.innerHTML = "";
+                                clearAnswerColorsArr(); // added function
+                                createAnswerColorsArr();
+                                renderAnswerOptions();
+                                renderQuizColor();
+                                input.value = "";
+                                handleModalChange(false);
+                            } else if (input.value === "no") {
+                                input.value = "";
+                                handleModalChange(false);
+                            }
+                        };
+                    </script>
+                    //end of game
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <button id="btn2" onclick="lesson4_2()">lesson4(Dont press it will block a code)</button>
+    <br>
+    <button onclick="lesson4_3()">Click</button>
+    <br>
+    <button onclick="lesson4_4()">Click</button>
+
+    <br>
+    <a href="https://jsfiddle.net/RicRex420/s4npL9vj/5/">Press for API Project</a>
+    <br>
+    <button onclick="lesson4_5()">Api_Project</button>
+
+    <br>
+    <button onclick="lesson5_2()">Lesson5</button>
+    <br>
+    <button onclick="lesson5_3()">Lesson5</button>
+    <br>
+    <button onclick="lesson5_4()">Lesson5</button>
+    <br>
+    <button onclick="lesson5_8()">Lesson5</button>
+    <button onclick="clearContent()">Clean</button>
+    <div id="log"></div>
+
+    <br>
+    <button onclick="lesson6()">leaflet project</button>
+
+    <br>
+    <button onclick="lesson10_1()">Canvas</button>
+    <canvas id="canvas"></canvas>
+
+    <br>
+    <button onclick="lesson10_2()">chart_app</button>
+    <script async src="//jsfiddle.net/RicRex420/rfadhukj/12/embed/"></script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
